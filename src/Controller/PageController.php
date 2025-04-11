@@ -12,10 +12,11 @@ final class PageController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(JobRepository $jobRepository): Response
     {
-        $jobs = $jobRepository->findBy([], ['createdat' => 'DESC'], 3);
-
+        $jobs = $jobRepository->findBy([], ['createdat' => 'DESC'], 1);
+    
         return $this->render('page/index.html.twig', [
             'jobs' => $jobs,
+            'controller_name' => 'HomeController', 
         ]);
     }
 

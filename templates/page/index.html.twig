@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PageController!{% endblock %}
+{% block title %}Hello {{ controller_name }}!{% endblock %}
 
 {% block body %}
 <style>
@@ -8,13 +8,18 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/Users/sharadbhusal/Desktop/symfony_projects/jobiz/src/Controller/PageController.php</code></li>
-        <li>Your template at <code>/Users/sharadbhusal/Desktop/symfony_projects/jobiz/templates/page/index.html.twig</code></li>
-    </ul>
-</div>
+<section class="text-gray-400 bg-gray-900 body-font">
+    <div class="container px-5 py-24 mx-auto">
+        <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
+            {% for job in jobs %}
+                <div class="job-item">
+                    <h3>{{ job.title }}</h3>
+                    <p>{{ job.description }}</p>
+                    <p>Created on: {{ job.createdAt|date('Y-m-d') }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}
+
