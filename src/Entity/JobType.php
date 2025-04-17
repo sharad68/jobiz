@@ -49,4 +49,10 @@ class JobType
     {
         return $this->jobs;
     }
+    // In App\Entity\JobType
+public function __toString(): string
+{
+    return $this->name;  // Assuming the JobType entity has a 'name' property
+}
+
 }

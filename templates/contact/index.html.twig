@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block body %}
+<section class="bg-gray-50 text-gray-800 body-font relative">
+    <div class="container px-6 py-16 mx-auto">
+        <div class="flex flex-col text-center w-full mb-12">
+            <h1 class="sm:text-4xl text-3xl font-semibold title-font mb-6 text-gray-900">Contact Us</h1>
+            <p class="lg:w-2/3 mx-auto leading-relaxed text-lg">We would love to hear from you! Please fill out the form below.</p>
+        </div>
+
+        {# Display success or error flash messages #}
+        {% for messege in app.flashes('success') %}
+            <div class="alert alert-success bg-green-100 text-green-800 p-4 rounded-lg mb-4">
+                {{ messege }}
+            </div>
+        {% endfor %}
+        {% for messege in app.flashes('error') %}
+            <div class="alert alert-danger bg-red-100 text-red-800 p-4 rounded-lg mb-4">
+                {{ messege }}
+            </div>
+        {% endfor %}
+
+        {# Contact Form Section #}
+        <form method="post" class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg">
+            {{ form_start(form) }}
+            
+            <div class="mb-6">
+                {{ form_label(form.email, 'Your Email Address', {'label_attr': {'class': 'text-lg font-medium text-gray-700'}}) }}
+                <div class="mt-2">
+                    {{ form_widget(form.email, {'attr': {'class': 'block w-full py-2 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400'}}) }}
+                    {# Form validation errors #}
+                    {% if form.email.vars.errors|length > 0 %}
+                        <div class="text-red-500 mt-2 text-sm">
+                            {% for error in form.email.vars.errors %}
+                                <p>{{ error.message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="mb-6">
+                {{ form_label(form.subject, 'Subject', {'label_attr': {'class': 'text-lg font-medium text-gray-700'}}) }}
+                <div class="mt-2">
+                    {{ form_widget(form.subject, {'attr': {'class': 'block w-full py-2 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400'}}) }}
+                    {# Form validation errors #}
+                    {% if form.subject.vars.errors|length > 0 %}
+                        <div class="text-red-500 mt-2 text-sm">
+                            {% for error in form.subject.vars.errors %}
+                                <p>{{ error.message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="mb-6">
+                {{ form_label(form.messege, 'Your Message', {'label_attr': {'class': 'text-lg font-medium text-gray-700'}}) }}
+                <div class="mt-2">
+                    {{ form_widget(form.messege, {'attr': {'class': 'block w-full py-2 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400'}}) }}
+                    {# Form validation errors #}
+                    {% if form.messege.vars.errors|length > 0 %}
+                        <div class="text-red-500 mt-2 text-sm">
+                            {% for error in form.messege.vars.errors %}
+                                <p>{{ error.message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300">
+                Send Message
+            </button>
+            {{ form_end(form) }}
+        </form>
+    </div>
+</section>
+{% endblock %}

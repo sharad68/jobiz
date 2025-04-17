@@ -114,6 +114,7 @@ class Company
     {
         return $this->jobs;
     }
+    
 
     public function addJob(Job $job): static
     {

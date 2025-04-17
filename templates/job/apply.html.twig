@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Apply for {{ job.title }}{% endblock %}
+
+{% block body %}
+    <h1>Apply for {{ job.title }}</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.coverLetter) }}
+        <button type="submit" class="btn btn-success">Submit Application</button>
+    {{ form_end(form) }}
+{% endblock %}

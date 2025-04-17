@@ -1,25 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello {{ controller_name }}!{% endblock %}
+{% block title %}Welcome to Jobiz{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<section class="text-gray-400 bg-gray-900 body-font">
-    <div class="container px-5 py-24 mx-auto">
-        <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
-            {% for job in jobs %}
-                <div class="job-item">
-                    <h3>{{ job.title }}</h3>
-                    <p>{{ job.description }}</p>
-                    <p>Created on: {{ job.createdAt|date('Y-m-d') }}</p>
-                </div>
-            {% endfor %}
-        </div>
+<section class="text-gray-300 bg-gray-900 body-font min-h-screen">
+  <div class="container mx-auto px-5 py-20">
+    
+    <!-- Logo and Intro -->
+    <div class="text-center mb-16">
+      <img src="{{ asset('images/logo-jobiz.png') }}" alt="Jobiz Logo" class="mx-auto w-24 h-24 mb-4">
+      <h1 class="text-4xl font-bold mb-2">Welcome to Jobiz</h1>
+      <p class="text-lg text-gray-400 max-w-xl mx-auto">
+        Discover new career opportunities, connect with great companies, and find your dream job today!
+      </p>
     </div>
+
+    <!-- Latest Jobs Section -->
+    <div class="mb-8">
+      <h2 class="text-2xl font-semibold mb-6 text-white text-center">Latest Job Offers</h2>
+
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {% for job in jobs %}
+          <div class="bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition">
+            <h3 class="text-xl text-white font-semibold mb-2">{{ job.title }}</h3>
+            <p class="text-gray-400 mb-3">{{ job.description|striptags|slice(0, 100) ~ '...' }}</p>
+
+            <ul class="text-sm text-gray-400 mb-4 space-y-1">
+              <li><strong>Location:</strong> {{ job.city }}, {{ job.country }}</li>
+              <li><strong>Remote:</strong> {{ job.remoteallowed ? 'Yes' : 'No' }}</li>
+              <li><strong>Salary:</strong> ${{ job.salaryrange }}</li>
+            </ul>
+
+            <a href="{{ path('app_job_show', { id: job.id }) }}"
+              class="text-indigo-400 hover:text-white font-medium inline-flex items-center">
+              View Job →
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                   stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        {% else %}
+          <p class="text-gray-300 text-center col-span-full">No job offers yet.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 </section>
 {% endblock %}
+
 

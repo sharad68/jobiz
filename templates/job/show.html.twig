@@ -1,0 +1,99 @@
+{% extends "base.html.twig" %} 
+{% block title %}{{ job.title }}{% endblock %} 
+
+{% block body %}
+<section class="text-gray-400 bg-gray-900 body-font">
+    <div class="container px-5 py-10 mx-auto">
+        <div class="flex flex-wrap -m-4">
+
+            <div class="p-4 w-full">
+                <h1 class="text-4xl font-bold text-white mb-4">{{ job.title }}</h1>
+                <p class="text-white mb-6">{{ job.description|raw }}</p>
+            </div>
+
+            <!-- Salary Range -->
+            <div class="p-4 sm:w-1/2 lg:w-1/4 w-full md:w-1/2">
+                <h2 class="text-3xl text-white font-medium mb-2">Salary Range</h2>
+                <p class="text-xl text-gray-300">{{ job.salaryRange }} €</p>
+            </div>
+
+            <!-- Company -->
+            <div class="p-4 sm:w-1/2 lg:w-1/4 w-full md:w-1/2">
+                <h2 class="text-3xl text-white font-medium mb-2">Company</h2>
+                <p class="text-xl text-gray-300">{{ job.company.name }}</p>
+            </div>
+
+            <!-- Posted On -->
+            <div class="p-4 sm:w-1/2 lg:w-1/4 w-full md:w-1/2">
+                <h2 class="text-3xl text-white font-medium mb-2">Posted On</h2>
+                <p class="text-xl text-gray-300">{{ job.createdAt|date('Y-m-d') }}</p>
+            </div>
+
+            <!-- Remote Allowed -->
+            <div class="p-4 sm:w-1/2 lg:w-1/4 w-full md:w-1/2">
+                <h2 class="text-3xl text-white font-medium mb-2">Remote Allowed</h2>
+                <p class="text-xl text-gray-300">{{ job.remoteAllowed ? 'Yes' : 'No' }}</p>
+            </div>
+
+            <!-- City -->
+            <div class="p-4 sm:w-1/2 lg:w-1/4 w-full md:w-1/2">
+                <h2 class="text-3xl text-white font-medium mb-2">City</h2>
+                <p class="text-xl text-gray-300">{{ job.city }}</p>
+            </div>
+
+            <!-- Country -->
+            <div class="p-4 sm:w-1/2 lg:w-1/4 w-full md:w-1/2">
+                <h2 class="text-3xl text-white font-medium mb-2">Country</h2>
+                <p class="text-xl text-gray-300">{{ job.country }}</p>
+            </div>
+
+            <!-- Categories -->
+            <div class="p-4 w-full">
+                <h2 class="text-xl text-white font-medium mb-2">Categories</h2>
+                <div class="flex flex-wrap">
+                    {% for category in job.category %}
+                        <a class="bg-gray-700 text-blue-500 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm mb-2 dark:bg-blue-900 dark:text-blue-300 hover:bg-blue-500 hover:text-white"
+                            href="#">
+                            {{ category.name }}
+                        </a>
+                    {% else %}
+                        <span class="text-gray-400 text-sm">No categories listed.</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Job Types -->
+            <div class="p-4 w-full">
+                <h2 class="text-xl text-white font-medium mb-2">Job Type</h2>
+                <div class="flex flex-wrap">
+                    {% for type in job.jobTypes %}
+                        <span class="bg-gray-700 text-blue-500 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm mb-2 dark:bg-blue-900 dark:text-blue-300 hover:bg-blue-500 hover:text-white">
+                            {{ type.name }}
+                        </span>
+                    {% else %}
+                        <p class="text-gray-400 text-sm">No job type specified.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Cover Letter Form -->
+            {% if app.user %}
+                <div class="p-4 w-full mt-8">
+                    <h2 class="text-xl text-white font-medium mb-4">Write Your Cover Letter</h2>
+                    {{ form_start(form) }}
+                    {{ form_row(form.coverletter, {'label': 'Cover Letter'}) }}
+                    <button type="submit" class="btn btn-success btn-lg py-3 px-6 text-lg text-white bg-green-500 hover:bg-green-600 rounded-lg">
+                        Submit Application
+                    </button>
+                    {{ form_end(form) }}
+                </div>
+            {% else %}
+                <div class="alert alert-info text-center py-4">
+                    <p><strong>Not logged in!</strong> To apply for this job, please <a href="{{ path('app_login') }}" class="btn btn-warning btn-sm px-4 py-2">Login</a>.</p>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+{% endblock %}

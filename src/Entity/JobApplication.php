@@ -27,6 +27,12 @@ class JobApplication
     #[ORM\JoinColumn(nullable: false)]
     private ?Job $job = null;
 
+    public function __construct()
+    {
+        // Set the createdat field to the current time upon creation
+        $this->createdat = new \DateTimeImmutable();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

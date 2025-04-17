@@ -21,7 +21,7 @@ class Job
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $description = null;
+    private ?string $description;
 
     #[ORM\Column(length: 255)]
     private ?string $city = null;
@@ -85,7 +85,7 @@ class Job
         return $this->description;
     }
 
-    public function setDescription(string $description): static
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 

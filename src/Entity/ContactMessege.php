@@ -2,28 +2,39 @@
 
 namespace App\Entity;
 
-use App\Repository\ContactMessegeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: ContactMessegeRepository::class)]
+#[ORM\Entity(repositoryClass: 'App\Repository\ContactMessegeRepository')]
 class ContactMessege
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'Please provide an email address.')]
+    #[Assert\Email(message: 'Please enter a valid email address.')]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'Subject is required.')]
     private ?string $subject = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank(message: 'Message cannot be empty.')]
     private ?string $messege = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdat = null;
+    #[ORM\Column(type: 'datetime')]
+    private \DateTimeInterface $createdat;
+
+    public function __construct()
+    {
+        $this->createdat = new \DateTimeImmutable();
+    }
+
+    // Getters and setters...
 
     public function getId(): ?int
     {
@@ -35,7 +46,7 @@ class ContactMessege
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
@@ -47,7 +58,7 @@ class ContactMessege
         return $this->subject;
     }
 
-    public function setSubject(string $subject): static
+    public function setSubject(string $subject): self
     {
         $this->subject = $subject;
 
@@ -59,19 +70,19 @@ class ContactMessege
         return $this->messege;
     }
 
-    public function setMessege(string $messege): static
+    public function setMessege(string $messege): self
     {
         $this->messege = $messege;
 
         return $this;
     }
 
-    public function getCreatedat(): ?\DateTimeImmutable
+    public function getCreatedat(): \DateTimeInterface
     {
         return $this->createdat;
     }
 
-    public function setCreatedat(\DateTimeImmutable $createdat): static
+    public function setCreatedat(\DateTimeInterface $createdat): self
     {
         $this->createdat = $createdat;
 
