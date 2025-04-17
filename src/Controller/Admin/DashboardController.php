@@ -8,10 +8,14 @@ use App\Entity\Category;
 use App\Entity\JobType;
 use App\Entity\JobApplication;
 use App\Entity\User;
+use App\Entity\ContactMessege; 
+
+
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+
 use Symfony\Component\HttpFoundation\Response;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
@@ -64,5 +68,10 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Users');
         yield MenuItem::linkToCrud('Users', 'fas fa-user', User::class);
+
+        // In configureMenuItems():
+        yield MenuItem::section('Contact');
+        yield MenuItem::linkToCrud('Contact Messeges', 'fas fa-envelope', ContactMessege::class);
+
     }
 }

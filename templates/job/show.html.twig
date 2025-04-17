@@ -77,21 +77,20 @@
             </div>
 
             <!-- Cover Letter Form -->
-            {% if app.user %}
-                <div class="p-4 w-full mt-8">
-                    <h2 class="text-xl text-white font-medium mb-4">Write Your Cover Letter</h2>
-                    {{ form_start(form) }}
-                    {{ form_row(form.coverletter, {'label': 'Cover Letter'}) }}
-                    <button type="submit" class="btn btn-success btn-lg py-3 px-6 text-lg text-white bg-green-500 hover:bg-green-600 rounded-lg">
-                        Submit Application
-                    </button>
-                    {{ form_end(form) }}
-                </div>
-            {% else %}
-                <div class="alert alert-info text-center py-4">
-                    <p><strong>Not logged in!</strong> To apply for this job, please <a href="{{ path('app_login') }}" class="btn btn-warning btn-sm px-4 py-2">Login</a>.</p>
-                </div>
-            {% endif %}
+            {% if app.user and form %}
+<div class="p-4 w-full mt-8">
+    <h2 class="text-xl text-white font-medium mb-4">Write Your Cover Letter</h2>
+    {{ form_start(form) }}
+    {{ form_row(form.coverletter, {'label': 'Cover Letter'}) }}
+    <button type="submit" class="btn btn-success btn-lg py-3 px-6 text-lg text-white bg-green-500 hover:bg-green-600 rounded-lg">
+        Submit Application
+    </button>
+    {{ form_end(form) }}
+</div>
+{% elseif not app.user %}
+<div class="alert alert-info text-white">Please <a href="{{ path('app_login') }}" class="underline">login</a> to apply.</div>
+{% endif %}
+
 
         </div>
     </div>

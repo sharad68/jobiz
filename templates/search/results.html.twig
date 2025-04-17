@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block body %}
+    <h1>Search Results for "{{ query }}"</h1>
+
+    {% if results is empty %}
+        <p>No jobs found.</p>
+    {% else %}
+        <ul>
+            {% for job in results %}
+                <li>
+                    <strong>{{ job.title }}</strong> - {{ job.company.name }} - {{ job.location }}
+                    <!-- Add a link to the job detail page if needed -->
+                    <a href="{{ path('job_show', {'id': job.id}) }}">View Details</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

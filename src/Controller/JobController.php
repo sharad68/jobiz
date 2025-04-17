@@ -23,8 +23,8 @@ final class JobController extends AbstractController
         ]);
 }
 
-    #[Route('/job/{id}', name: 'app_job_show')]
-public function show(int $id, JobRepository $jobRepository): Response
+#[Route('/job/{id}', name: 'app_job_show')]
+public function show(Request $request, int $id, JobRepository $jobRepository, EntityManagerInterface $em): Response
 {
     $job = $jobRepository->find($id);
 
@@ -32,40 +32,28 @@ public function show(int $id, JobRepository $jobRepository): Response
         throw $this->createNotFoundException('Job not found');
     }
 
-    return $this->render('job/show.html.twig', [
-        'job' => $job,
-    ]);
+    $form = null;
+    if ($this->getUser()) {
+        $application = new JobApplication();
+        $application->setUser($this->getUser());
+        $application->setJob($job);
 
+        $form = $this->createForm(JobApplicationType::class, $application);
+        $form->handleRequest($request);
 
-}
+        if ($form->isSubmitted() && $form->isValid()) {
+            $application->setCreatedat(new \DateTimeImmutable());
+            $em->persist($application);
+            $em->flush();
 
-#[Route('/job/{id}/apply', name: 'job_apply')]
-public function apply(
-    Request $request,
-    Job $job,
-    EntityManagerInterface $em
-): Response {
-    $this->denyAccessUnlessGranted('ROLE_USER');
-
-    $application = new JobApplication();
-    $application->setUser($this->getUser());
-    $application->setJob($job);
-
-    $form = $this->createForm(JobApplicationType::class, $application);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        $em->persist($application);
-        $em->flush();
-
-        $this->addFlash('success', 'Application submitted successfully!');
-        return $this->redirectToRoute('app_home');
+            $this->addFlash('success', 'Application submitted successfully!');
+            return $this->redirectToRoute('app_job_show', ['id' => $job->getId()]);
+        }
     }
 
-    return $this->render('job/apply.html.twig', [
-        'form' => $form->createView(),
+    return $this->render('job/show.html.twig', [
         'job' => $job,
+        'form' => $form ? $form->createView() : null,
     ]);
 }
-
 }
